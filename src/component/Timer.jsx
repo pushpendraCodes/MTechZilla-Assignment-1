@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
 
-const Timer = ({ login }) => {
-  const [minutes, setMinutes] = useState(1);
+const Timer = () => {
+  const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [Text, setText] = useState("start timer");
@@ -13,7 +12,6 @@ const Timer = ({ login }) => {
 
   useEffect(() => {
     let interval;
-
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
@@ -45,28 +43,44 @@ const Timer = ({ login }) => {
   }, [isActive, minutes, seconds]);
 
   useEffect(() => {
-    if (!login) {
-      navigate("/");
+    if (!localStorage.getItem("email")) {
+      navigate("/login");
     }
-
   }, []);
 
-
+  // reset function
   const resetTimer = () => {
+    document.getElementById("text").style.display = "block";
+    setText("start timer");
     setIsActive(false);
-    setMinutes(1);
+    setMinutes(25);
     setSeconds(0);
-    setText("start timer")
+
   };
+
+  // break timer function
   const BreakTimer = () => {
     setIsActive(false);
-    setMinutes(3);
+    setMinutes(5);
     setSeconds(0);
   };
 
+  // logout
+  const logout = () => {
+    localStorage.clear("email");
+    navigate("/login");
+  };
   return (
-    <>
-      <div className=" flex justify-center gap-16 flex-col items-center p-20 ">
+    <div className="h-screen">
+      <div className="my-5 flex justify-end">
+        <button
+          onClick={logout}
+          className=" rounded-md hover:bg-slate-300 bg-slate-200 py-1 px-2"
+        >
+          Logout
+        </button>
+      </div>
+      <div className=" flex justify-center gap-16 flex-col items-center  ">
         <h2 className="text-3xl font-bold  text-white">Pomodoro timer app</h2>
 
         <div className=" flex items-center cursor-pointer justify-center rounded-full bg-[#05928a] w-80 h-80 border-4 border-solid border-gray-600">
@@ -99,7 +113,7 @@ const Timer = ({ login }) => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

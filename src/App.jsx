@@ -1,8 +1,9 @@
 
 import './App.css'
-import Auth from './component/Auth';
+
+import Login from './component/Firebase/Login';
 import Timer from './component/Timer'
-import { useState } from 'react';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -10,19 +11,19 @@ import {
   Link,
 } from "react-router-dom";
 function App() {
-  const[login,setlogin]=useState(false)
-  // const[profile,setProfile]=useState()
+
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/login",
       element: (
-       <Auth setlogin={setlogin}   />
+
+      <Login/>
       ),
     },
     {
-      path: "/timer",
-    element:<Timer  login={login}  />
+      path: "/",
+    element:<Timer    />
     }
   ])
   return (
